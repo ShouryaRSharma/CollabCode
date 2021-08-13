@@ -7,11 +7,15 @@ import { store } from "react-notifications-component";
 
 import Header from "../Header/Header";
 import UsersList from "../User/Users";
+import Dropdown from '../Dropdown/Dropdown';
 
 import "codemirror/mode/python/python";
+import "codemirror/mode/xml/xml";
+import "codemirror/mode/javascript/javascript";
+import "codemirror/mode/clike/clike";
+
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
-
 
 let socket = null;
 
@@ -92,6 +96,10 @@ export default function Editor({location}) {
             }
         });
 
+        socket.on("changeMode", (mode) => {
+          setConfig({ mode: mode });
+        });
+
         socket.on("roomData", ({ users }) => {
             setUsers(users);
             console.log(users);
@@ -100,6 +108,11 @@ export default function Editor({location}) {
 
     const handleText = (text) => {
         socket.emit("sendText", text);
+    }
+
+    const handleMode = (e) => {
+      setConfig({ mode: e.target.value });
+      socket.emit("sendMode", e.target.value);
     }
 
     const handleShare = () => {
@@ -122,12 +135,24 @@ export default function Editor({location}) {
         });
     };
 
+    const modes = [
+      { name: "Python", code: "python" },
+      { name: "Javascript", code: "javascript" },
+      { name: "C/C++/C#", code: "clike" },
+      { name: "XML/HTML", code: "xml" }
+    ];
+
     return (
         <div className="container">
             <Header />
             <UsersList users={users} />
             <main>
                 <div id="share">
+                    <Dropdown 
+                      default={config.mode}
+                      options={modes}
+                      handleDropdown={handleMode}
+                    />
                     <button className="btn btn-success" onClick={handleShare}>
                         <span>Share&nbsp;&nbsp;</span>
                         <FiShare2 size={15} />
