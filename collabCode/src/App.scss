@@ -1,7 +1,27 @@
 .App {
-  text-align: center;
+  header {
+    text-align: center;
+    h1 {
+      font-size: 6.5rem;
+      margin-bottom: 0;
+    }
+    
+    h3 {
+      color: #5200ff;
+      font-size: 1.85rem;
+      margin: 0;
+    }
+  }
+  background: #B993D6;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #8CA6DB, #B993D6);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #8CA6DB, #B993D6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height: 100vh;
 }
 
+h1 {
+  margin-top: 0;
+  padding-top: 1rem;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
