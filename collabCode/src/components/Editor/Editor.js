@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
-import { FiShare2 } from "react-icons/fi";
+import { FiShare2, FiCopy } from "react-icons/fi";
 import io from "socket.io-client";
 import queryString from "query-string";
 import { store } from "react-notifications-component";
@@ -136,6 +136,26 @@ export default function Editor({location}) {
         });
     };
 
+    const handleCopy = () => {
+        navigator.clipboard.writeText(text);
+        store.addNotification({
+          message: "Copied code",
+          type: "info",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true,
+            pauseOnHover: true,
+            touch: true,
+            showIcon: true,
+            click: true,
+          },
+        });
+    }
+
     const modes = [
       { name: "Python", code: "python" },
       { name: "Javascript", code: "javascript" },
@@ -154,25 +174,24 @@ export default function Editor({location}) {
                     <UsersList users={users} />
                     </div>
 
-                  <div class="col-md" id="share" style={{display: "flex", "justify-content": "flex-end"}}>
-
+                  <div class="col-md btn-group" role="group" aria-label="Copy + Share" id="share" style={{display: "flex", "justify-content": "flex-end"}}>
                       <button className="btn btn-success" onClick={handleShare}>
-                          <span>Share Link&nbsp;&nbsp;</span>
                           <FiShare2 size={15} />
                       </button>
+                      <button className="btn btn-outline-success" onClick={handleCopy}>
+                          <FiCopy size={15} />
+                      </button>
                   </div>
-
-
                 </div>
                 <br></br>
                 <div>
-                <p  style={{color:"white", display: "inline-block"}}>Select Language:</p>
-                <Dropdown
-                            default={config.mode}
-                            options={modes}
-                            handleDropdown={handleMode}
-                          />
-                </div>
+                  <p  style={{color:"white", display: "inline-block"}}>Select Language:</p>
+                  <Dropdown
+                              default={config.mode}
+                              options={modes}
+                              handleDropdown={handleMode}
+                            />
+                  </div>
                 <br></br>
                 <CodeMirror
                     value={text}

@@ -13,9 +13,9 @@ export default function Login(props) {
         <Fragment>
             <Header />
             <main>
-                <div className="">
+                <div className="text-center">
                     <form onSubmit={login}>
-                        <input type="submit" value="Get Started" />
+                        <input type="submit" className="btn btn-success" value="Get Started" />
                     </form>
                 </div>
             </main>
