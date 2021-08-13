@@ -1,6 +1,6 @@
 import React from 'react'
 import User from './User'
-
+import "./Users.css"
 export default function Users({users}) {
     return(
         <div className="users">
