@@ -35,4 +35,30 @@ io.on("connection", socket => {
             callback();
         }
     });
+
+    socket.on("sendText", (text) => {
+        const user = findUser(socket.id);
+        console.log(text);
+        socket.broadcast.to(user.room).emit("text", text);
+    });
+
+    socket.on("disconnect", () => {
+        console.log("User has disconnected");
+        const user = removeUser(socket.id);
+        if (user) {
+          io.to(user.room).emit("notification", {
+            text: `${user.name} has left`,
+            type: "disconnect",
+          });
+    
+          io.to(user.room).emit("roomData", {
+            room: user.room,
+            users: currentRoom(user.room),
+          });
+        }
+    });
 })
+
+http.listen(PORT, '127.0.0.1',  () => {
+    console.log(`Listening on port ${PORT}`);
+});
