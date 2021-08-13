@@ -23,8 +23,6 @@ io.on("connection", socket => {
             return callback(error)
         } else {
             socket.join(user.room)
-            console.log("user id", socket.id)
-            console.log(user.name)
 
             const joined = user.name + " has joined"
             socket.broadcast.to(user.room).emit("notification", {
@@ -37,11 +35,13 @@ io.on("connection", socket => {
                 users: currentRoom(user.room)
             })
 
-            console.log(user.room)
-            console.log(currentRoom(user.room))
-
             callback();
         }
+    });
+    
+    socket.on("sendMode", (mode) => {
+        const user = findUser(socket.id);
+        socket.broadcast.to(user.room).emit("changeMode", mode);
     });
 
     socket.on("sendText", (text) => {
