@@ -2,9 +2,9 @@ import React from 'react'
 
 export default function User({ user }) {
     return (
-        <div>
+        <div style={{display: "inline-block"}}>
             <span>&nbsp;</span>
-            {user.name}
+            {user.name} ,
         </div>
     )
 }

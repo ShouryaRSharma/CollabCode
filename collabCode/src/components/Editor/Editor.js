@@ -11,7 +11,7 @@ import UsersList from "../User/Users";
 import "codemirror/mode/python/python";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
-
+import "./Editor.css";
 
 let socket = null;
 
@@ -123,16 +123,24 @@ export default function Editor({location}) {
     };
 
     return (
-        <div className="container">
+        <div>
             <Header />
-            <UsersList users={users} />
+            <div className="container">
+            
             <main>
-                <div id="share">
-                    <button className="btn btn-success" onClick={handleShare}>
-                        <span>Share&nbsp;&nbsp;</span>
-                        <FiShare2 size={15} />
-                    </button>
+                <div className="row">
+                <div class="col-md">
+                  <UsersList users={users} />
+                  </div>
+
+                  <div class="col-md" id="share" style={{display: "flex", "justify-content": "flex-end"}}>
+                      <button className="btn btn-success" onClick={handleShare}>
+                          <span>Share Link&nbsp;&nbsp;</span>
+                          <FiShare2 size={15} />
+                      </button>
+                  </div>
                 </div>
+                <br></br>
                 <CodeMirror
                     value={text}
                     className="codeMirror"
@@ -143,6 +151,7 @@ export default function Editor({location}) {
                     }}
                 />
             </main>
+            </div>
         </div>
     )
 }
