@@ -1,11 +1,15 @@
 const app = require("express")();
 const http = require("http").createServer(app);
-const io = require("socket.io")(http);
+const io = require("socket.io")(http, {
+    cors: {
+    origin: "http://localhost:3000",
+    }}
+);
 const cors = require("cors");
 const PORT = 5000;
 const { addUser, removeUser, findUser, currentRoom } = require("./users");
 
-app.use(cors())
+app.use(cors)
 
 app.get("/", (request, response) => {
     response.send("<h1>Server initiated... </h1>");
@@ -20,6 +24,7 @@ io.on("connection", socket => {
         } else {
             socket.join(user.room)
             console.log("user id", socket.id)
+            console.log(user.name)
 
             const joined = user.name + " has joined"
             socket.broadcast.to(user.room).emit("notification", {
@@ -31,6 +36,9 @@ io.on("connection", socket => {
                 room: user.room,
                 users: currentRoom(user.room)
             })
+
+            console.log(user.room)
+            console.log(currentRoom(user.room))
 
             callback();
         }
