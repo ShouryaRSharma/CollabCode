@@ -166,8 +166,8 @@ export default function Editor({location}) {
                 </div>
                 <br></br>
                 <div>
-                
-                <Dropdown 
+                <p  style={{color:"white", display: "inline-block"}}>Select Language:</p>
+                <Dropdown
                             default={config.mode}
                             options={modes}
                             handleDropdown={handleMode}
